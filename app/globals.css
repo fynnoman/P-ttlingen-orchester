@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #ffffff;
+  --ink: #0f172a;
+  --royal: #1e40af;
+  --navy: #0b2545;
+  --paper-warm: #fbfaf7;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+}
+
+::selection {
+  background: #1e40af;
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .reveal-child > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .marquee-track, .scroll-cue {
+    animation: none !important;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity 1s cubic-bezier(.22,1,.36,1), transform 1s cubic-bezier(.22,1,.36,1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-child > * {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+}
+.reveal-child.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-child.is-visible > *:nth-child(2) { transition-delay: 90ms; }
+.reveal-child.is-visible > *:nth-child(3) { transition-delay: 180ms; }
+.reveal-child.is-visible > *:nth-child(4) { transition-delay: 270ms; }
+.reveal-child.is-visible > *:nth-child(5) { transition-delay: 360ms; }
+.reveal-child.is-visible > *:nth-child(6) { transition-delay: 450ms; }
+.reveal-child.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+.hr-thin {
+  border: 0;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.underline-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size .35s ease, color .2s ease;
+}
+.underline-link:hover {
+  background-size: 100% 2px;
+  color: #1e40af;
+}
+
+.ink-grad {
+  background: linear-gradient(180deg, #0b2545 0%, #0f172a 100%);
+}
+
+.text-grad-navy {
+  background: linear-gradient(90deg, #0b2545 0%, #1e40af 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.scroll-cue {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(180deg, transparent, #0b2545 60%, transparent);
+  animation: cuePulse 2.4s ease-in-out infinite;
+}
+@keyframes cuePulse {
+  0%, 100% { opacity: .2; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(6px); }
+}
+
+.num-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───── Editorial tooling ───── */
+
+/* Marquee */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  gap: 0;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.marquee-track {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding-right: 3rem;
+  animation: marqueeScroll 42s linear infinite;
+  white-space: nowrap;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Musikalische Notenlinien als Section-Trenner */
+.staff {
+  position: relative;
+  height: 44px;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0 7px,
+    #0b2545 7px 8px,
+    transparent 8px 16px
+  );
+  opacity: .22;
+}
+.staff-note {
+  position: absolute;
+  top: 24px;
+  width: 14px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0b2545;
+  transform: rotate(-18deg);
+}
+.staff-note::after {
+  content: "";
+  position: absolute;
+  top: -22px;
+  right: 1px;
+  width: 1.5px;
+  height: 24px;
+  background: #0b2545;
+}
+
+/* Große Ziffern/Display-Elemente */
+.numeral {
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  font-style: italic;
+  font-weight: 500;
+  color: #0b2545;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+}
+
+/* Kleine Labels – einheitlich Inter, nur Caps + Tracking */
+.mono-label {
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .mono-label { font-size: 0.68rem; }
+}
+
+/* Rotiertes vertikales Rahmentext */
+.vrl-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.22em;
+}
+
+/* Subtiler Papierton für Editorial-Panels */
+.bg-paper-warm { background: var(--paper-warm); }
+
+/* Arched image frame (klassisch, ohne Dark-Mode-Ästhetik) */
+.frame-arch {
+  border-radius: 500px 500px 32px 32px;
+  overflow: hidden;
+}
+
+/* Hairline grid helper */
+.grid-rules > * + * {
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Diagonal cream strip */
+.diag-strip {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(11, 37, 69, 0.07) 0 1px,
+      transparent 1px 10px
+    );
+}
+
+/* Hover zoom helper */
+.img-zoom {
+  transition: transform 1.2s cubic-bezier(.22,1,.36,1);
+}
+.img-zoom-wrap:hover .img-zoom {
+  transform: scale(1.04);
+}
